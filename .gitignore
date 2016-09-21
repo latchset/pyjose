@@ -1,0 +1,8 @@
+pyjose.c
+pyjose.so
+/build
+/dist
+/pyjose.egg-info
+*.pyc
+__pycache__
+
