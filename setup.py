@@ -9,9 +9,9 @@ JOSE_LIBRARY_DIR = os.path.join(JOSE_DIR, '.libs')
 
 extensions = [
     Extension(
-        'pyjose',
-        sources=['pyjose.pyx'],
-        depends=['jansson.pxd', 'pyjose.pxd', 'setup.py'],
+        'jose',
+        sources=['jose.pyx'],
+        depends=['jansson.pxd', 'jose.pxd', 'setup.py'],
         include_dirs=[JOSE_DIR],
         libraries=['jose', 'jose-openssl'],
         library_dirs=[JOSE_LIBRARY_DIR],
@@ -20,7 +20,7 @@ extensions = [
 ]
 
 setup(
-    name='pyjose',
+    name='jose',
     description='Cython wrapper for libjose',
     ext_modules=cythonize(extensions),
     version='0.0.0',

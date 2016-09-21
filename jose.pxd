@@ -17,11 +17,9 @@ cdef extern from "jose/buf.h":
 
 
 cdef extern from "jose/jwe.h":
-    jansson.json_t *jose_jwe_from_compact(const char *jwe)
-    char *jose_jwe_to_compact(const jansson.json_t *jwe)
     bool jose_jwe_encrypt(jansson.json_t *jwe, const jansson.json_t *cek, const uint8_t pt[], size_t ptl)
     bool jose_jwe_wrap(jansson.json_t *jwe, jansson.json_t *cek, const jansson.json_t *jwk, jansson.json_t *rcp)
-    jansson.json_t *jose_jwe_unwrap(const jansson.json_t *jwe, const jansson.json_t *rcp, const jansson.json_t *jwk)
+    jansson.json_t *jose_jwe_unwrap(const jansson.json_t *jwe, const jansson.json_t *jwk, const jansson.json_t *rcp)
     jose_buf_t *jose_jwe_decrypt(const jansson.json_t *jwe, const jansson.json_t *cek)
     jansson.json_t *jose_jwe_merge_header(const jansson.json_t *jwe, const jansson.json_t *rcp)
 
@@ -35,8 +33,10 @@ cdef extern from "jose/jwk.h":
 
 
 cdef extern from "jose/jws.h":
-    jansson.json_t *jose_jws_from_compact(const char *jws)
-    char *jose_jws_to_compact(const jansson.json_t *jws)
     bool jose_jws_sign(jansson.json_t *jws, const jansson.json_t *jwk, jansson.json_t *sig)
-    bool jose_jws_verify(const jansson.json_t *jws, const jansson.json_t *jwk)
+    bool jose_jws_verify(const jansson.json_t *jws, const jansson.json_t *jwk, const jansson.json_t *sig)
     jansson.json_t *jose_jws_merge_header(const jansson.json_t *sig)
+
+cdef extern from "jose/jose.h":
+    jansson.json_t *jose_from_compact(const char *jose)
+    char *jose_to_compact(const jansson.json_t *jose)
