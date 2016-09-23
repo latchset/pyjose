@@ -416,3 +416,19 @@ def to_compact(flat):
     finally:
         jansson.json_decref(cjose)
         free(ret)
+
+
+cdef init():
+    # init jansson hash randomization seed
+    jansson.json_object_seed(0)
+
+    # initialize OpenSSL
+    jose.OpenSSL_add_all_algorithms()
+
+    # try to import _ssl to set up threading locks
+    try:
+        __import__('_ssl')
+    except ImportError:
+        pass
+
+init()
