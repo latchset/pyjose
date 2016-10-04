@@ -1,0 +1,5 @@
+include setup.py setup.cfg
+include LICENSE README
+include *.md
+include *.pxd
+include _jose.pyx _jose.c
