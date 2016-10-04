@@ -2,6 +2,11 @@ PYTHON=python3
 
 .NOTPARALLEL:
 
+.PHONY=test
+test: clean
+	$(MAKE) egg_info
+	tox
+
 README: README.md
 	echo -e '.. WARNING: AUTO-GENERATED FILE. DO NOT EDIT.\n' > $@
 	pandoc --from=markdown --to=rst $< >> $@
@@ -15,9 +20,10 @@ clean:
 
 .PHONY=distclean
 distclean: clean
-	rm -f _jose.c MANIFEST
-	rm -rf .tox  .cache
-	rm -rf src/*.egg-info
+	rm -f _jose.c
+	rm -f MANIFEST
+	rm -rf .tox .cache
+	rm -rf src/*.egg-info *.egg-info
 
 .PHONY=egg_info
 egg_info: README

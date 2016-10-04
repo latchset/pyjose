@@ -1,4 +1,6 @@
 include setup.py setup.cfg
+include MANIFEST.in
 include LICENSE README
 include *.md
+include tox.ini
 include _jose.pyx _jose.c

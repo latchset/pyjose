@@ -5,7 +5,22 @@ import sys
 
 from setuptools import setup
 from setuptools.extension import Extension
-from Cython.Build import cythonize
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    def cythonize(extensions, **kwargs):
+        for extension in extensions:
+            for i, filename in enumerate(extension.sources):
+                if filename.endswith('.pxy'):
+                    extension.sources = filename[:-4] + '.c'
+        return extensions
+
+
+test_requires = ['pytest']
+test_pep8_requires = ['flake8', 'flake8-import-order', 'pep8-naming']
+test_docs_requires = ['docutils', 'markdown']
+extra_compile_args = []
+extra_link_args = []
 
 
 def pkgconfig(flags, *pkgs):
@@ -15,10 +30,6 @@ def pkgconfig(flags, *pkgs):
     if isinstance(out, bytes):
         out = out.decode(sys.getfilesystemencoding())
     return shlex.split(out)
-
-
-extra_compile_args = []
-extra_link_args = []
 
 
 JOSE_DIR = os.environ.get('JOSE_DIR')
@@ -70,4 +81,10 @@ setup(
         'Topic :: Security',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+    tests_require=test_requires,
+    extras_require={
+        'test': test_requires,
+        'test_docs': test_docs_requires,
+        'test_pep8': test_pep8_requires,
+    },
 )
