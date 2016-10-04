@@ -1,23 +1,52 @@
 import os
+import shlex
+import subprocess
+import sys
 
 from setuptools import setup
 from setuptools.extension import Extension
 from Cython.Build import cythonize
 
-JOSE_DIR = '../jose'
-JOSE_LIBRARY_DIR = os.path.join(JOSE_DIR, '.libs')
+
+def pkgconfig(flags, *pkgs):
+    cmd = ['pkg-config', flags]
+    cmd.extend(pkgs)
+    out = subprocess.check_output(cmd)
+    if isinstance(out, bytes):
+        out = out.decode(sys.getfilesystemencoding())
+    return shlex.split(out)
+
+
+extra_compile_args = []
+extra_link_args = []
+
+
+JOSE_DIR = os.environ.get('JOSE_DIR')
+if JOSE_DIR and os.path.isdir(JOSE_DIR):
+    JOSE_DIR = os.path.abspath(JOSE_DIR)
+    JOSE_LIBRARY_DIR = os.path.join(JOSE_DIR, '.libs')
+    os.environ['PKG_CONFIG_PATH'] = JOSE_DIR
+    extra_compile_args.append('-I' + JOSE_DIR)
+    extra_link_args.append('-L' + JOSE_LIBRARY_DIR)
+    extra_link_args.append('-Wl,-rpath,' + JOSE_LIBRARY_DIR)
+
+
+extra_compile_args.extend(
+    pkgconfig('--cflags', 'jose-openssl', 'jose-zlib'))
+extra_link_args.extend(
+    pkgconfig('--libs', 'jose-openssl', 'jose-zlib'))
+
 
 extensions = [
     Extension(
         'jose._jose',
         sources=['_jose.pyx'],
         depends=['jansson.pxd', 'jose.pxd', 'setup.py'],
-        include_dirs=[JOSE_DIR],
-        libraries=['jose', 'jose-openssl', 'jose-zlib'],
-        library_dirs=[JOSE_LIBRARY_DIR],
-        extra_link_args=['-Wl,-rpath,' + JOSE_LIBRARY_DIR],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
     ),
 ]
+
 
 setup(
     name='jose',
