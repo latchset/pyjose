@@ -9,7 +9,7 @@ JOSE_LIBRARY_DIR = os.path.join(JOSE_DIR, '.libs')
 
 extensions = [
     Extension(
-        'jose',
+        'jose._jose',
         sources=['jose.pyx'],
         depends=['jansson.pxd', 'jose.pxd', 'setup.py'],
         include_dirs=[JOSE_DIR],
@@ -28,6 +28,7 @@ setup(
     maintainer='Latchset Contributors',
     maintainer_email='cheimes@redhat.com',
     url='https://github.com/latchset/pyjose',
+    packages=['jose'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Cython',
