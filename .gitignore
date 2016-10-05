@@ -1,5 +1,5 @@
-jose.c
-/jose/_jose.so
+/_jose.c
+/jose/_jose*.so
 /build
 /dist
 /jose.egg-info

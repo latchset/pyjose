@@ -10,7 +10,7 @@ JOSE_LIBRARY_DIR = os.path.join(JOSE_DIR, '.libs')
 extensions = [
     Extension(
         'jose._jose',
-        sources=['jose.pyx'],
+        sources=['_jose.pyx'],
         depends=['jansson.pxd', 'jose.pxd', 'setup.py'],
         include_dirs=[JOSE_DIR],
         libraries=['jose', 'jose-openssl', 'jose-zlib'],
