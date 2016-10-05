@@ -8,21 +8,22 @@ README: README.md
 
 .PHONY=clean
 clean:
-	rm -f jose/_jose*.s[ol] jose/_jose*.dyn
+	rm -f src/jose/_jose*.s[ol] src/jose/_jose*.dyn
 	rm -rf build dist
 	find ./ -name '*.py[co]' -exec rm -f {} \;
 	find ./ -depth -name __pycache__ -exec rm -rf {} \;
 
 .PHONY=distclean
 distclean: clean
-	rm -f _jose.c
-	rm -rf *.egg-info .tox MANIFEST .cache
+	rm -f _jose.c MANIFEST
+	rm -rf .tox  .cache
+	rm -rf src/*.egg-info
 
 .PHONY=egg_info
 egg_info: README
 	$(PYTHON) setup.py egg_info
 
 .PHONY=packages
-packages: clean egg_info
+packages: distclean egg_info
 	$(PYTHON) setup.py packages
 

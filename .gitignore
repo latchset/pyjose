@@ -1,8 +1,8 @@
 /_jose.c
-/jose/_jose*.so
+/src/jose/_jose*.so
 /build
 /dist
-/jose.egg-info
+jose.egg-info
 *.pyc
 __pycache__
 

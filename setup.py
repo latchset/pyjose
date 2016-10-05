@@ -41,7 +41,7 @@ extensions = [
     Extension(
         'jose._jose',
         sources=['_jose.pyx'],
-        depends=['jansson.pxd', 'jose.pxd', 'setup.py'],
+        depends=['src/jose/jansson.pxd', 'src/jose/jose.pxd', 'setup.py'],
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,
     ),
@@ -51,13 +51,15 @@ extensions = [
 setup(
     name='jose',
     description='Cython wrapper for libjose',
-    ext_modules=cythonize(extensions),
+    ext_modules=cythonize(extensions, include_path=['src/jose']),
     version='4',
     license='Apache 2.0',
     maintainer='Latchset Contributors',
     maintainer_email='cheimes@redhat.com',
     url='https://github.com/latchset/pyjose',
     packages=['jose'],
+    package_dir={'jose': 'src/jose'},
+    package_data={'jose': ['*.pxd']},
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Cython',
