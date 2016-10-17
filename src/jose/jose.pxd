@@ -27,7 +27,7 @@ cdef extern from "jose/jwe.h":
 cdef extern from "jose/jwk.h":
     bool jose_jwk_generate(jansson.json_t *jwk)
     bool jose_jwk_clean(jansson.json_t *jwk)
-    bool jose_jwk_allowed(const jansson.json_t *jwk, bool req, const char *use, const char *op)
+    bool jose_jwk_allowed(const jansson.json_t *jwk, bool req, const char *op)
     char *jose_jwk_thumbprint(const jansson.json_t *jwk, const char *hash)
     jansson.json_t *jose_jwk_exchange(const jansson.json_t *prv, const jansson.json_t *pub)
 

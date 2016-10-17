@@ -49,18 +49,12 @@ def jwk_clean(jwk):
         free(ret)
 
 
-def jwk_allowed(jwk, req=False, use=None, op=None):
+def jwk_allowed(jwk, req=False, op=None):
     cdef jansson.json_t *cjwk = NULL
-    cdef const char *cuse = NULL
     cdef const char *cop = NULL
 
     assert isinstance(jwk, dict)
     assert op is None or isinstance(op, unicode)
-    assert use is None or isinstance(use, unicode)
-
-    if use is not None:
-        use = use.encode(u"UTF-8")
-        cuse = use
 
     if op is not None:
         op = op.encode(u"UTF-8")
@@ -70,7 +64,7 @@ def jwk_allowed(jwk, req=False, use=None, op=None):
         cjwk = jansson.json_loads(json.dumps(jwk).encode(u"UTF-8"), 0, NULL)
         assert cjwk
 
-        return True if jose.jose_jwk_allowed(cjwk, req, cuse, cop) else False
+        return True if jose.jose_jwk_allowed(cjwk, req, cop) else False
     finally:
         jansson.json_decref(cjwk)
 

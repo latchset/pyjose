@@ -27,8 +27,8 @@ def clean(jwk):
     return _jose.jwk_clean(jwk)
 
 
-def allowed(jwk, req=False, use=None, op=None):
-    return _jose.jwk_allowed(jwk, req, use, op)
+def allowed(jwk, req=False, op=None):
+    return _jose.jwk_allowed(jwk, req, op)
 
 
 def thumbprint(jwk, hash=u"sha1"):
