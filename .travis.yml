@@ -35,7 +35,7 @@ install:
   - mkdir -p $CACHE_DIR
   - >
     if [ ! -f "${CACHE_IMAGE}" ]; then
-        docker build -t latchset/pyjose .travis/
+        docker build -t latchset/pyjose .travis/;
         docker save latchset/pyjose | gzip > ${CACHE_IMAGE};
     fi
 
